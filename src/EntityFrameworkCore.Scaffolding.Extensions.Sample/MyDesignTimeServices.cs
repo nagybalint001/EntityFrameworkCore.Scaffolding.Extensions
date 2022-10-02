@@ -1,0 +1,26 @@
+﻿using EntityFrameworkCore.Scaffolding.Extensions.CommonInterfaces;
+using EntityFrameworkCore.Scaffolding.Extensions.Sample.Enums;
+
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace EntityFrameworkCore.Scaffolding.Extensions.Sample;
+
+public class MyDesignTimeServices : IDesignTimeServices
+{
+    public void ConfigureDesignTimeServices(IServiceCollection services)
+    {
+        services.AddScaffoldingExtensions(options =>
+        {
+            options
+                .UseTable("Tree")
+                    .AddEnumColumn<TreeType>("Type")
+                .UseTable("Apple")
+                    .AddEnumColumn<AppleStatus>("Status");
+
+            options
+                .AddAuditableInterface<DateTimeOffset, Guid>()
+                .AddSoftDeletableInterface();
+        });
+    }
+}
