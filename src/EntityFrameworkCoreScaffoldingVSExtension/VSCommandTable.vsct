@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Include href="KnownImageIds.vsct"/>
+  <Include href="VSGlobals.vsct"/>
+
+  <Commands package="EntityFrameworkCoreScaffoldingVSExtension">
+    <Groups>
+      <Group guid="EntityFrameworkCoreScaffoldingVSExtension" id="ScaffoldingMenuGroup" priority="0x0100">
+        <Parent guid="VSMainMenu" id="ProjectNode"/>
+      </Group>
+    </Groups>
+
+    <!--This section defines the elements the user can interact with, like a menu command or a button
+        or combo box in a toolbar. -->
+    <Buttons>
+      <Button guid="EntityFrameworkCoreScaffoldingVSExtension" id="RunScaffoldingCommand" priority="0x0100" type="Button">
+        <Parent guid="EntityFrameworkCoreScaffoldingVSExtension" id="ScaffoldingMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="DatabaseModelRefresh" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Run DB scaffolding</ButtonText>
+          <LocCanonicalName>.EntityFrameworkCoreScaffolding.RunScaffoldingCommand</LocCanonicalName>
+        </Strings>
+      </Button>
+      <Button guid="EntityFrameworkCoreScaffoldingVSExtension" id="OpenConfigCommand" priority="0x0100" type="Button">
+	    <Parent guid="EntityFrameworkCoreScaffoldingVSExtension" id="ScaffoldingMenuGroup" />
+	    <Icon guid="ImageCatalogGuid" id="DatabaseSettings" />
+	    <CommandFlag>IconIsMoniker</CommandFlag>
+	    <Strings>
+		    <ButtonText>Scaffolding settings</ButtonText>
+		    <LocCanonicalName>.EntityFrameworkCoreScaffolding.OpenConfigCommand</LocCanonicalName>
+	    </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="EntityFrameworkCoreScaffoldingVSExtension" value="{d8d678c4-3772-4ddb-bec1-552ed6ca0e48}">
+      <IDSymbol name="ScaffoldingMenuGroup" value="0x0001" />
+      <IDSymbol name="RunScaffoldingCommand" value="0x0100" />
+      <IDSymbol name="OpenConfigCommand" value="0x0200" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
