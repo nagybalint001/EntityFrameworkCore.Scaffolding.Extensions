@@ -13,7 +13,8 @@ public class ConfigurationService
 
     public static async Task<ScaffoldingSettings> LoadSettingsAsync()
     {
-        var settingsPath = await GetSettingsPathAsync();
+        var project = await VS.Solutions.GetActiveProjectAsync();
+        var settingsPath = GetSettingsPath(project);
 
         if (!File.Exists(settingsPath))
             return null;
@@ -24,10 +25,18 @@ public class ConfigurationService
 
     public static async Task SaveSettingsAsync(ScaffoldingSettings model)
     {
-        var settingsPath = await GetSettingsPathAsync();
+        var project = await VS.Solutions.GetActiveProjectAsync();
+        var settingsPath = GetSettingsPath(project);
+
+        var addToProject = !File.Exists(settingsPath);
 
         var json = JsonConvert.SerializeObject(model, Formatting.Indented);
         File.WriteAllText(settingsPath, json);
+
+        if (addToProject)
+        {
+            await project.AddExistingFilesAsync(settingsPath);
+        }
     }
 
     public static ScaffoldingSettings GetInitialModel()
@@ -58,9 +67,8 @@ public class ConfigurationService
         };
     }
 
-    private static async Task<string> GetSettingsPathAsync()
+    private static string GetSettingsPath(Project project)
     {
-        var project = await VS.Solutions.GetActiveProjectAsync();
         var projectDirectory = Path.GetDirectoryName(project.FullPath);
         return Path.Combine(projectDirectory, SettingsFileName);
     }
