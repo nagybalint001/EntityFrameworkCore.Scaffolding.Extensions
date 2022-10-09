@@ -9,10 +9,10 @@ namespace EntityFrameworkCoreScaffoldingVSExtension
     {
         public const string Id = "EntityFrameworkCoreScaffoldingVSExtension.659224d2-41c1-4234-bdf9-72a0dac02573";
         public const string Name = "EntityFramework Core Scaffolding";
-        public const string Description = @"EntityFramework Core Scaffolding";
+        public const string Description = @"A VS tool to run the `dotnet ef dbcontext scaffold` command.";
         public const string Language = "en-US";
-        public const string Version = "1.0";
-        public const string Author = "Bálint Nagy";
-        public const string Tags = "";
+        public const string Version = "1.0.1";
+        public const string Author = "Nagy Bálint";
+        public const string Tags = "dotnet ef;scaffold;scaffolding;reverse engineering";
     }
 }
