@@ -1,0 +1,23 @@
+{
+  "DataSource": "Data Source=.\\SQLEXPRESS; Initial Catalog=SampleDatabase; Integrated Security=True; Trust Server Certificate=True",
+  "Provider": "Microsoft.EntityFrameworkCore.SqlServer",
+  "ContextName": "SampleDatabaseContext",
+  "ContextDirectory": ".",
+  "OutputDirectory": "Entities",
+  "ContextNamespace": null,
+  "Namespace": null,
+  "Schemas": null,
+  "Tables": null,
+  "ProjectDirectory": ".",
+  "StartupProjectDirectory": ".",
+  "TargetFramework": null,
+  "Configuration": null,
+  "TargetRuntime": null,
+  "DataAnnotations": false,
+  "UseDatabaseNames": false,
+  "NoOnConfiguring": true,
+  "NoPluralize": true,
+  "Force": true,
+  "NoBuild": false,
+  "Verbose": false
+}

@@ -7,22 +7,14 @@ namespace EntityFrameworkCore.Scaffolding.Extensions.Sample;
 
 public partial class SampleDatabaseContext : DbContext
 {
-    public SampleDatabaseContext()
-    {
-    }
-
     public SampleDatabaseContext(DbContextOptions<SampleDatabaseContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<Apple> Apples { get; set; } = null!;
+    public virtual DbSet<Apple> Apple { get; set; } = null!;
 
-    public virtual DbSet<Tree> Trees { get; set; } = null!;
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.\\SQLExpress; Initial Catalog=SampleDatabase; Integrated Security=True; Trust Server Certificate=True;");
+    public virtual DbSet<Tree> Tree { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,7 +22,7 @@ public partial class SampleDatabaseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("pkApple");
 
-            entity.ToTable("Apple", tb => tb.HasComment("Apple entity"));
+            entity.ToTable(tb => tb.HasComment("Apple entity"));
 
             entity.Property(e => e.Id)
                 .HasColumnOrder(0)
@@ -58,7 +50,7 @@ public partial class SampleDatabaseContext : DbContext
                 .HasColumnOrder(2)
                 .HasComment("The tree it is belonging to.");
 
-            entity.HasOne(d => d.Tree).WithMany(p => p.Apples)
+            entity.HasOne(d => d.Tree).WithMany(p => p.Apple)
                 .HasForeignKey(d => d.TreeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fkAppleToTree");
@@ -68,7 +60,7 @@ public partial class SampleDatabaseContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("pkTree");
 
-            entity.ToTable("Tree", tb => tb.HasComment("Tree entity"));
+            entity.ToTable(tb => tb.HasComment("Tree entity"));
 
             entity.Property(e => e.Id)
                 .HasColumnOrder(0)

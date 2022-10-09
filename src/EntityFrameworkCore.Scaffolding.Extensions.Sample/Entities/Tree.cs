@@ -50,5 +50,5 @@ public partial class Tree : IAuditableEntity<DateTimeOffset, Guid>
     /// </summary>
     public Guid ModifiedBy { get; set; }
 
-    public virtual ICollection<Apple> Apples { get; } = new List<Apple>();
+    public virtual ICollection<Apple> Apple { get; } = new List<Apple>();
 }
