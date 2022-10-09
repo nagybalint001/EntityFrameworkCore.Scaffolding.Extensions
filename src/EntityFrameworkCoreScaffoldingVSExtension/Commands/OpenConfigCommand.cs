@@ -1,12 +1,17 @@
-﻿namespace EntityFrameworkCoreScaffoldingVSExtension
+﻿using EntityFrameworkCoreScaffoldingVSExtension.Services;
+using EntityFrameworkCoreScaffoldingVSExtension.Views;
+
+namespace EntityFrameworkCoreScaffoldingVSExtension;
+
+[Command(PackageIds.OpenConfigCommand)]
+internal sealed class OpenConfigCommand : BaseCommand<OpenConfigCommand>
 {
-    [Command(PackageIds.OpenConfigCommand)]
-    internal sealed class OpenConfigCommand : BaseCommand<OpenConfigCommand>
+    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
     {
-        protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
-        {
-            var view = new ScaffoldingSettingsView();
-            view.ShowModal();
-        }
+        var settings = await ConfigurationService.LoadSettingsAsync();
+        settings ??= ConfigurationService.GetInitialModel();
+
+        var view = new ScaffoldingSettingsDialog(new ScaffoldingSettingsVM(settings));
+        view.ShowModal();
     }
 }

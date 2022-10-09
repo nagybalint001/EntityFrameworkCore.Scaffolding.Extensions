@@ -1,0 +1,135 @@
+﻿<platformui:DialogWindow x:Class="EntityFrameworkCoreScaffoldingVSExtension.ScaffoldingSettingsDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
+    xmlns:util="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Utilities"
+    xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
+    xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
+    xmlns:platformui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:views="clr-namespace:EntityFrameworkCoreScaffoldingVSExtension.Views"
+    toolkit:Themes.UseVsTheme="True"
+    d:DataContext="{d:DesignInstance Type=views:ScaffoldingSettingsVM}"
+    mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="520"
+    MinWidth="250"
+    MinHeight="250"
+    Width="520" 
+    Height="600"
+    Title="Scaffolding configuration"
+    Name="ScaffoldingSettings">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="10">
+            <StackPanel>
+                <Label>
+                    <TextBlock TextWrapping="Wrap">Connection:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding DataSource}" />
+
+                <Label>
+                    <TextBlock TextWrapping="Wrap">Provider:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding Provider}" />
+
+                <Label ToolTip="--context">
+                    <TextBlock TextWrapping="Wrap">Context name:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding ContextName}" />
+
+                <Label ToolTip="--context-dir">
+                    <TextBlock TextWrapping="Wrap">Context output directory:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding ContextDirectory}" />
+
+                <Label ToolTip="--output-dir">
+                    <TextBlock TextWrapping="Wrap">Entities output directory:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding OutputDirectory}" />
+
+                <Label ToolTip="--context-namespace">
+                    <TextBlock TextWrapping="Wrap">Context namespace:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding ContextNamespace}" />
+
+                <Label ToolTip="--namespace">
+                    <TextBlock TextWrapping="Wrap">Namespace:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding Namespace}" />
+
+                <Label ToolTip="--schema">
+                    <TextBlock TextWrapping="Wrap">Schemas (comma separated list, leave empty for all):</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding Schemas}" />
+
+                <Label ToolTip="--table">
+                    <TextBlock TextWrapping="Wrap">Tables (comma separated list, leave empty for all):</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding Tables}" />
+
+                <Label ToolTip="--project">
+                    <TextBlock TextWrapping="Wrap">Project folder:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding ProjectDirectory}" />
+
+                <Label ToolTip="--startup-project">
+                    <TextBlock TextWrapping="Wrap">Startup project folder:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding StartupProjectDirectory}" />
+
+                <Label ToolTip="--framework">
+                    <TextBlock TextWrapping="Wrap">Target Framework Moniker:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding TargetFramework}" />
+
+                <Label ToolTip="--configuration">
+                    <TextBlock TextWrapping="Wrap">Configuration:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding Configuration}" />
+
+                <Label ToolTip="--runtime">
+                    <TextBlock TextWrapping="Wrap">The target runtime to restore packages for:</TextBlock>
+                </Label>
+                <TextBox Margin="10,0" Text="{Binding TargetRuntime}" />
+
+                <CheckBox Margin="10" ToolTip="--data-annotations" IsChecked="{Binding DataAnnotations}">
+                    <TextBlock TextWrapping="Wrap">Use attributes to configure the model (where possible).</TextBlock>
+                </CheckBox>
+
+                <CheckBox Margin="10,0,10,10" ToolTip="--use-database-names" IsChecked="{Binding UseDatabaseNames}">
+                    <TextBlock TextWrapping="Wrap">Use table and column names exactly as they appear in the database.</TextBlock>
+                </CheckBox>
+
+                <CheckBox Margin="10,0,10,10" ToolTip="--no-onconfiguring" IsChecked="{Binding NoOnConfiguring}">
+                    <TextBlock TextWrapping="Wrap">Suppresses generation of the OnConfiguring method in the generated DbContext class.</TextBlock>
+                </CheckBox>
+
+                <CheckBox Margin="10,0,10,10" ToolTip="--no-pluralize" IsChecked="{Binding NoPluralize}">
+                    <TextBlock TextWrapping="Wrap">Don't use the pluralizer.</TextBlock>
+                </CheckBox>
+
+                <CheckBox Margin="10,0,10,10" ToolTip="--force" IsChecked="{Binding Force}">
+                    <TextBlock TextWrapping="Wrap">Overwrite existing files.</TextBlock>
+                </CheckBox>
+
+                <CheckBox Margin="10,0,10,10" ToolTip="--no-build" IsChecked="{Binding NoBuild}">
+                    <TextBlock TextWrapping="Wrap">Don't build the project.</TextBlock>
+                </CheckBox>
+
+                <CheckBox Margin="10,0,10,10" ToolTip="--verbose" IsChecked="{Binding Verbose}">
+                    <TextBlock TextWrapping="Wrap">Show verbose output.</TextBlock>
+                </CheckBox>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+            <Button Width="80" Command="{Binding SaveCommand}">Save</Button>
+            <Button Width="80" Command="{Binding CancelCommand}" Margin="10,0,0,0">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</platformui:DialogWindow>

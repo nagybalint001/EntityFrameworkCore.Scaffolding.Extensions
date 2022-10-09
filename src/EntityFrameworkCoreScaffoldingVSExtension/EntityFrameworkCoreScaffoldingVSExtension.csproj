@@ -47,16 +47,19 @@
   <ItemGroup>
     <Compile Include="Commands\OpenConfigCommand.cs" />
     <Compile Include="Commands\RunScaffoldingCommand.cs" />
+    <Compile Include="Models\ScaffoldingSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EntityFrameworkCoreScaffoldingVSExtensionPackage.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="source.extension.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScaffoldingSettingsView.xaml.cs">
-      <DependentUpon>ScaffoldingSettingsView.xaml</DependentUpon>
+    <Compile Include="Views\ScaffoldingSettingsDialog.xaml.cs">
+      <DependentUpon>ScaffoldingSettingsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ScaffoldingSettingsVM.cs" />
     <Compile Include="VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -108,7 +111,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\ScaffoldingSettingsView.xaml">
+    <Page Include="Views\ScaffoldingSettingsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
