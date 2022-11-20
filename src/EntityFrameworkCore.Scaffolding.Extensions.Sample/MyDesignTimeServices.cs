@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.Scaffolding.Extensions.CommonInterfaces;
 using EntityFrameworkCore.Scaffolding.Extensions.Sample.Enums;
+using EntityFrameworkCore.Scaffolding.Extensions.Sample.Interfaces;
 
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,8 @@ public class MyDesignTimeServices : IDesignTimeServices
 
             options
                 .AddAuditableInterface<DateTimeOffset, Guid>()
-                .AddSoftDeletableInterface();
+                .AddSoftDeletableInterface()
+                .AddInterface<MyInterface>(entity => entity.Name == "Apple");
         });
     }
 }

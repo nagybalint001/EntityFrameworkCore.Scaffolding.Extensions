@@ -14,7 +14,7 @@ public class EntityTypeHelper
     public List<Type> GetInterfaces(IEntityType entityType)
     {
         return _options.EntityInterfaces
-            .Where(i => i.Check(entityType))
+            .Where(i => i.IsImplementedBy(entityType))
             .Select(i => i.Interface)
             .ToList();
     }

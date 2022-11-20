@@ -2,9 +2,24 @@
 
 namespace EntityFrameworkCore.Scaffolding.Extensions;
 
-public abstract class EntityInterface
+public class EntityInterface
 {
-    public Type Interface { get; set; }
+    protected Func<IEntityType, bool> CheckFunc { get; }
+    public Type Interface { get; }
 
-    public abstract bool Check(IEntityType entity);
+    public EntityInterface(Type @interface, Func<IEntityType, bool> checkFunc)
+    {
+        Interface = @interface;
+        CheckFunc = checkFunc;
+    }
+
+    public virtual bool IsImplementedBy(IEntityType entity)
+    {
+        return CheckFunc(entity);
+    }
+
+    public static EntityInterface Create<TInterface>(Func<IEntityType, bool> checkFunc)
+    {
+        return new EntityInterface(typeof(TInterface), checkFunc);
+    }
 }

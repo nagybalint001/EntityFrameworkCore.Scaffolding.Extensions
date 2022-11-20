@@ -1,4 +1,6 @@
-﻿namespace EntityFrameworkCore.Scaffolding.Extensions;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+
+namespace EntityFrameworkCore.Scaffolding.Extensions;
 
 public static class ScaffoldingOptionsExtensions
 {
@@ -51,17 +53,20 @@ public static class ScaffoldingOptionsExtensions
         return builder;
     }
 
-    public static ScaffoldingOptions AddInterface<TInterface>(this ScaffoldingOptions options, params string[] propertyNames)
-    {
-        options.EntityInterfaces.Add(new PropertyNameBasedEntityInterface(typeof(TInterface), propertyNames));
-
-        return options;
-    }
-
     public static ScaffoldingOptions AddInterface(this ScaffoldingOptions options, EntityInterface entityInterface)
     {
         options.EntityInterfaces.Add(entityInterface);
 
         return options;
+    }
+
+    public static ScaffoldingOptions AddInterface<TInterface>(this ScaffoldingOptions options, Func<IEntityType, bool> checkFunc)
+    {
+        return options.AddInterface(EntityInterface.Create<TInterface>(checkFunc));
+    }
+
+    public static ScaffoldingOptions AddInterface<TInterface>(this ScaffoldingOptions options, params string[] propertyNames)
+    {
+        return options.AddInterface<TInterface>(entity => entity.FindProperties(propertyNames) != null);
     }
 }
