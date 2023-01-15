@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[HideThis]
+(
+	[Id] INT NOT NULL PRIMARY KEY
+)

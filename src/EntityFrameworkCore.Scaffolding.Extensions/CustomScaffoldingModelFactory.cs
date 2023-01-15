@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Design.Internal;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
@@ -35,5 +36,14 @@ public class CustomScaffoldingModelFactory : RelationalScaffoldingModelFactory
         }
 
         return base.GetTypeScaffoldingInfo(column);
+    }
+
+    protected override ModelBuilder VisitTables(ModelBuilder modelBuilder, ICollection<DatabaseTable> tables)
+    {
+        tables = tables
+            .Where(t => !_scaffoldingOptions.ExcludedTables.Contains(t.Name))
+            .ToList();
+
+        return base.VisitTables(modelBuilder, tables);
     }
 }

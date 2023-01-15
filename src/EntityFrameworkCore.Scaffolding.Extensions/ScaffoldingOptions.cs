@@ -9,4 +9,6 @@ public class ScaffoldingOptions
     public Dictionary<DbColumn, Type> ColumnTypeMapping { get; } = new();
 
     public List<EntityInterface> EntityInterfaces { get; } = new();
+
+    public List<string> ExcludedTables { get; } = new();
 }

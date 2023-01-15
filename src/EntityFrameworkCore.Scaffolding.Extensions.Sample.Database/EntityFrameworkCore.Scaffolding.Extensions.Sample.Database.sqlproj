@@ -63,6 +63,7 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Apple.sql" />
     <Build Include="dbo\Tables\Tree.sql" />
+    <Build Include="dbo\Tables\HideThis.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\Local.publish.xml" />

@@ -13,6 +13,8 @@ public class MyDesignTimeServices : IDesignTimeServices
     {
         services.AddScaffoldingExtensions(options =>
         {
+            options.ExcludeTable("HideThis");
+
             options
                 .UseTable("Tree")
                     .AddEnumColumn<TreeType>("Type")

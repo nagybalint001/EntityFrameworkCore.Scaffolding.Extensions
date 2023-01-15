@@ -69,4 +69,11 @@ public static class ScaffoldingOptionsExtensions
     {
         return options.AddInterface<TInterface>(entity => entity.FindProperties(propertyNames) != null);
     }
+
+    public static ScaffoldingOptions ExcludeTable(this ScaffoldingOptions options, string tableName)
+    {
+        options.ExcludedTables.Add(tableName);
+
+        return options;
+    }
 }
