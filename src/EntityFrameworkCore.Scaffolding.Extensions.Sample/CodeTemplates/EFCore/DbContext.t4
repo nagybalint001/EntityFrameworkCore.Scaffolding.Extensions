@@ -78,11 +78,14 @@ public partial class <#= Options.ContextName #> : <#= code.Reference(DbContextBa
     if (!Options.SuppressConnectionStringWarning)
     {
 #>
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
 <#
     }
+
+    var useProviderCall = providerCode.GenerateUseProvider(Options.ConnectionString);
+    usings.AddRange(useProviderCall.GetRequiredUsings());
 #>
-        => optionsBuilder<#= code.Fragment(providerCode.GenerateUseProvider(Options.ConnectionString), indent: 3) #>;
+        => optionsBuilder<#= code.Fragment(useProviderCall, indent: 3) #>;
 
 <#
     }
@@ -213,7 +216,7 @@ public partial class <#= Options.ContextName #> : <#= code.Reference(DbContextBa
                 WriteLine("");
             }
 #>
-            entity.HasOne(d => d.<#= foreignKey.DependentToPrincipal.Name #>).<#= foreignKey.IsUnique ? "WithOne" : "WithMany" #>(p => p.<#= foreignKey.PrincipalToDependent.Name #>)<#= code.Fragment(foreignKeyFluentApiCalls, indent: 4) #>;
+            entity.HasOne(d => d.<#= foreignKey.DependentToPrincipal.Name #>).<#= foreignKey.IsUnique ? "WithOne" : "WithMany" #>(<#= foreignKey.PrincipalToDependent != null ? $"p => p.{foreignKey.PrincipalToDependent.Name}" : "" #>)<#= code.Fragment(foreignKeyFluentApiCalls, indent: 4) #>;
 <#
             anyEntityTypeConfiguration = true;
         }
@@ -277,6 +280,20 @@ public partial class <#= Options.ContextName #> : <#= code.Reference(DbContextBa
                 }
 #>
                         j.HasIndex(<#= code.Literal(index.Properties.Select(e => e.Name).ToArray()) #>, <#= code.Literal(index.GetDatabaseName()) #>)<#= code.Fragment(indexFluentApiCalls, indent: 7) #>;
+<#
+            }
+
+            foreach (var property in joinEntityType.GetProperties())
+            {
+                var propertyFluentApiCalls = property.GetFluentApiCalls(annotationCodeGenerator);
+                if (propertyFluentApiCalls == null)
+                {
+                    continue;
+                }
+
+                usings.AddRange(propertyFluentApiCalls.GetRequiredUsings());
+#>
+                        j.IndexerProperty<<#= code.Reference(property.ClrType) #>>(<#= code.Literal(property.Name) #>)<#= code.Fragment(propertyFluentApiCalls, indent: 7) #>;
 <#
             }
 #>
