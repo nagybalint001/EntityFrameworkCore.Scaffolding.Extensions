@@ -71,7 +71,7 @@ public class CustomTextTemplatingModelGenerator : TextTemplatingModelGenerator
         {
             host.TemplateFile = contextTemplate;
 
-            generatedCode = Engine.ProcessTemplate(File.ReadAllText(contextTemplate), host);
+            generatedCode = Engine.ProcessTemplateAsync(File.ReadAllText(contextTemplate), host).GetAwaiter().GetResult();
             CheckEncoding(host.OutputEncoding);
             HandleErrors(host);
         }
@@ -101,13 +101,11 @@ public class CustomTextTemplatingModelGenerator : TextTemplatingModelGenerator
         var dbContextFileName = options.ContextName + host.Extension;
         var resultingFiles = new ScaffoldedModel
         {
-            ContextFile = new ScaffoldedFile
-            {
-                Path = options.ContextDir != null
+            ContextFile = new ScaffoldedFile(
+                options.ContextDir != null
                     ? Path.Combine(options.ContextDir, dbContextFileName)
                     : dbContextFileName,
-                Code = generatedCode
-            }
+                generatedCode)
         };
 
         var entityTypeTemplate = Path.Combine(options.ProjectDir!, TemplatesDirectory, EntityTypeTemplate);
@@ -132,7 +130,8 @@ public class CustomTextTemplatingModelGenerator : TextTemplatingModelGenerator
 
                     if (compiledEntityTypeTemplate is null)
                     {
-                        compiledEntityTypeTemplate = Engine.CompileTemplate(File.ReadAllText(entityTypeTemplate), host);
+                        compiledEntityTypeTemplate = Engine.CompileTemplateAsync(File.ReadAllText(entityTypeTemplate), host, default)
+                            .GetAwaiter().GetResult();
                         entityTypeExtension = host.Extension;
                         CheckEncoding(host.OutputEncoding);
                     }
@@ -147,7 +146,7 @@ public class CustomTextTemplatingModelGenerator : TextTemplatingModelGenerator
 
                     var entityTypeFileName = entityType.Name + entityTypeExtension;
                     resultingFiles.AdditionalFiles.Add(
-                        new ScaffoldedFile { Path = entityTypeFileName, Code = generatedCode });
+                        new ScaffoldedFile(entityTypeFileName, generatedCode));
                 }
             }
             finally
@@ -175,7 +174,8 @@ public class CustomTextTemplatingModelGenerator : TextTemplatingModelGenerator
 
                     if (compiledConfigurationTemplate is null)
                     {
-                        compiledConfigurationTemplate = Engine.CompileTemplate(File.ReadAllText(configurationTemplate), host);
+                        compiledConfigurationTemplate = Engine.CompileTemplateAsync(File.ReadAllText(configurationTemplate), host, default)
+                            .GetAwaiter().GetResult();
                         configurationExtension = host.Extension;
                         CheckEncoding(host.OutputEncoding);
                     }
@@ -190,13 +190,11 @@ public class CustomTextTemplatingModelGenerator : TextTemplatingModelGenerator
 
                     var configurationFileName = entityType.Name + "Configuration" + configurationExtension;
                     resultingFiles.AdditionalFiles.Add(
-                        new ScaffoldedFile
-                        {
-                            Path = options.ContextDir != null
+                        new ScaffoldedFile(
+                            options.ContextDir != null
                                 ? Path.Combine(options.ContextDir, configurationFileName)
                                 : configurationFileName,
-                            Code = generatedCode
-                        });
+                            generatedCode));
                 }
             }
             finally
